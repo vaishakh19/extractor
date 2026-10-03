@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <meta name="color-scheme" content="dark">
   <meta name="description" content="Local-first crypto trading control terminal">
-  <title>PIXELBOT // LOCAL CRYPTO TERMINAL</title>
+  <title>NEKOBOT // LOCAL CRYPTO TERMINAL</title>
   <link rel="stylesheet" href="/static/style.css">
 </head>
 <body>
@@ -13,10 +13,10 @@
   <div id="pixel-particles" class="pixel-particles" aria-hidden="true"></div>
 
   <header class="site-nav">
-    <a class="brand" href="#top" aria-label="Pixelbot home">
-      <span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
-      <span>PIXELBOT</span>
-      <em>BETA v0.1</em>
+    <a class="brand" href="#top" aria-label="Nekobot home">
+      <span class="brand-mark" aria-hidden="true"><i></i></span>
+      <span>NEKOBOT</span>
+      <em>BETA v0.9.4</em>
     </a>
     <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">
       <span></span><span></span><span></span>
@@ -24,33 +24,11 @@
     <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
       <a href="#features">FEATURES</a>
       <a href="#performance">PERFORMANCE</a>
-      <a href="#strategies">STRATEGIES</a>
       <a href="#pricing">PRICING</a>
       <a href="#docs">DOCS</a>
     </nav>
     <button class="pixel-button nav-cta" id="wallet-button" type="button">CONNECT WALLET</button>
   </header>
-
-  <div class="market-ticker" aria-label="Market and bot ticker">
-    <div class="ticker-track">
-      <div class="ticker-set">
-        <span>BTC/USDT <b>ACTIVE</b></span><i>◆</i>
-        <span>MODE <b>{{ mode }}</b></span><i>◆</i>
-        <span>BOT TRADES <b>{{ trades }}</b></span><i>◆</i>
-        <span>UPTIME <b>LOCAL</b></span><i>◆</i>
-        <span>STRATEGY <b>{{ strategy|upper }}</b></span><i>◆</i>
-        <span class="live-badge">● SYSTEM ONLINE</span><i>◆</i>
-      </div>
-      <div class="ticker-set" aria-hidden="true">
-        <span>BTC/USDT <b>ACTIVE</b></span><i>◆</i>
-        <span>MODE <b>{{ mode }}</b></span><i>◆</i>
-        <span>BOT TRADES <b>{{ trades }}</b></span><i>◆</i>
-        <span>UPTIME <b>LOCAL</b></span><i>◆</i>
-        <span>STRATEGY <b>{{ strategy|upper }}</b></span><i>◆</i>
-        <span class="live-badge">● SYSTEM ONLINE</span><i>◆</i>
-      </div>
-    </div>
-  </div>
 
   {% if mode == 'LIVE' %}
   <aside class="live-warning" role="alert"><strong>! LIVE MONEY MODE !</strong><span>REAL FUNDS ENABLED // EXCHANGE STATE MUST RECONCILE</span></aside>
@@ -59,51 +37,80 @@
   <main id="top">
     <section class="hero" id="features">
       <div class="hero-copy">
-        <p class="pixel-kicker"><span></span> LOCAL-FIRST TRADING ENGINE</p>
+        <p class="hero-status"><span></span>{{ mode }} ON {{ exchange|upper }} • {{ trades }} TRADES</p>
         <h1>YOUR WALLET'S<br><mark>NEW BEST</mark><br>FRIEND<span class="blink">_</span></h1>
-        <p class="hero-description">A PRIVATE, HARDENED CRYPTO AUTOMATION TERMINAL. BACKTEST STRATEGIES, PAPER TRADE LIVE MARKETS, AND KEEP EVERY BYTE ON YOUR MACHINE.</p>
+        <p class="hero-description">Automated trading bot that runs locally.<br>8-bit interface, risk-first execution. No cloud,<br>just validated signals.</p>
         <div class="hero-actions">
           <a class="pixel-button" href="#backtest">LAUNCH BOT +</a>
           <a class="pixel-button pixel-button-secondary" href="#performance">VIEW STATS</a>
         </div>
         <div class="trust-row" aria-label="Product properties">
-          <span>▮ NON-CUSTODIAL</span><b>•</b><span>▮ OPEN SOURCE</span><b>•</b><span>▮ 24/7 AUTOMATION</span>
+          <span>▮ NO SUBSCRIPTION</span><b>•</b><span>▮ NON-CUSTODIAL</span><b>•</b><span>▮ OPEN SOURCE</span>
         </div>
       </div>
 
-      <div class="terminal-wrap">
-        <article class="trading-terminal">
-          <header class="terminal-header">
-            <div class="terminal-title"><span class="terminal-icon">▦</span> TRADING_TERMINAL.EXE</div>
+      <div class="terminal-wrap neko-terminal-wrap">
+        <article class="trading-terminal neko-terminal">
+          <header class="terminal-header neko-terminal-header">
             <div class="terminal-controls"><i></i><i></i><i></i></div>
+            <div class="terminal-label">NEKOBOT TRADING TERMINAL</div>
           </header>
-          <div class="terminal-statusline">
-            <span>PAIR // {{ symbol }}</span>
-            <span>TF // {{ settings.timeframe }}</span>
-            <span class="terminal-live">● {{ bot_status }}</span>
-          </div>
-          <div class="terminal-chart" aria-label="Local system activity graphic">
-            <div class="chart-y-labels"><span>100</span><span>075</span><span>050</span><span>025</span></div>
-            <svg viewBox="0 0 640 230" role="img" aria-label="Pixel-style system activity line">
-              <g class="chart-grid-lines">
-                <path d="M0 45H640M0 90H640M0 135H640M0 180H640"/>
-                <path d="M80 0V230M160 0V230M240 0V230M320 0V230M400 0V230M480 0V230M560 0V230"/>
+          <div class="terminal-ribbon">LOCAL // NO CLOUD</div>
+          <div class="robot-stage" aria-label="Pixel robot trading illustration">
+            <svg viewBox="0 0 640 430" role="img" aria-label="Nekobot pixel trading robot">
+              <g class="profit-bars">
+                <rect x="0" y="326" width="86" height="35"/>
+                <rect x="62" y="286" width="86" height="75"/>
+                <rect x="126" y="246" width="86" height="115"/>
+                <rect x="190" y="203" width="86" height="158"/>
+                <rect x="254" y="160" width="86" height="201"/>
               </g>
-              <polyline class="chart-shadow-line" points="0,190 48,175 80,184 125,145 168,158 210,118 248,130 290,92 330,108 375,64 415,82 455,48 500,62 540,30 585,42 640,16"/>
-              <polyline class="chart-main-line" points="0,184 48,169 80,178 125,139 168,152 210,112 248,124 290,86 330,102 375,58 415,76 455,42 500,56 540,24 585,36 640,10"/>
-              <g class="chart-points"><rect x="121" y="135" width="8" height="8"/><rect x="286" y="82" width="8" height="8"/><rect x="451" y="38" width="8" height="8"/><rect x="581" y="32" width="8" height="8"/></g>
+              <rect class="robot-shadow" x="256" y="350" width="300" height="18"/>
+              <g class="robot-body">
+                <rect class="cream-fill" x="286" y="144" width="260" height="220"/>
+                <rect class="black-fill" x="307" y="244" width="218" height="98"/>
+                <rect class="panel-fill" x="324" y="260" width="75" height="28"/>
+                <rect class="panel-fill" x="418" y="260" width="75" height="28"/>
+                <rect class="panel-fill" x="324" y="303" width="75" height="18"/>
+                <rect class="panel-fill" x="418" y="303" width="75" height="18"/>
+                <rect class="lime-fill" x="454" y="265" width="20" height="8"/>
+                <rect class="lime-fill" x="438" y="278" width="52" height="7"/>
+              </g>
+              <g class="robot-head">
+                <path class="cream-fill" d="M271 100H302V62H350V100H474V62H522V100H552V238H271Z"/>
+                <rect class="face-fill" x="291" y="126" width="241" height="93"/>
+                <rect class="black-fill" x="309" y="145" width="57" height="57"/>
+                <rect class="lime-fill" x="318" y="154" width="39" height="39"/>
+                <rect class="black-fill" x="330" y="166" width="15" height="15"/>
+                <rect class="black-fill" x="457" y="145" width="57" height="57"/>
+                <rect class="lime-fill" x="466" y="154" width="39" height="39"/>
+                <rect class="black-fill" x="478" y="166" width="15" height="15"/>
+                <rect class="black-fill" x="405" y="183" width="15" height="15"/>
+                <rect class="cream-fill" x="246" y="157" width="25" height="15"/>
+                <rect class="cream-fill" x="552" y="157" width="25" height="15"/>
+                <rect class="cream-fill" x="246" y="190" width="25" height="15"/>
+                <rect class="cream-fill" x="552" y="190" width="25" height="15"/>
+              </g>
+              <g class="antenna">
+                <rect class="cream-fill" x="402" y="49" width="12" height="51"/>
+                <rect class="lime-fill" x="386" y="18" width="44" height="44"/>
+                <rect class="black-fill" x="398" y="30" width="20" height="20"/>
+              </g>
+              <g class="robot-pixels">
+                <rect class="lime-fill" x="555" y="98" width="12" height="12"/>
+                <rect class="cream-fill" x="208" y="379" width="19" height="19"/>
+                <rect class="cream-fill" x="548" y="379" width="13" height="13"/>
+              </g>
             </svg>
-            <span class="chart-caption">// SYSTEM ACTIVITY</span>
           </div>
-          <div class="terminal-metrics">
-            <div><span>BALANCE</span><strong id="balance">${{ '%.2f'|format(balance) }}</strong></div>
-            <div><span>EQUITY</span><strong id="equity">${{ '%.2f'|format(equity) }}</strong></div>
-            <div><span>NET P&amp;L</span><strong class="{{ 'positive' if total_pnl >= 0 else 'negative' }}">${{ '%+.2f'|format(total_pnl) }}</strong></div>
+          <div class="terminal-metrics neko-metrics">
+            <div><span>P&amp;L TODAY</span><strong class="positive">${{ '%+.2f'|format(today_pnl) }}</strong></div>
+            <div><span>TRADES</span><strong>{{ '%03d'|format(trades) }}</strong></div>
+            <div><span>STATUS</span><strong id="bot-status" class="positive">{{ mode }}</strong></div>
           </div>
-          <div class="terminal-command"><span>&gt;</span> ENGINE.STATUS = <b id="bot-status">{{ bot_status }}</b><i class="cursor"></i></div>
+          <span class="sr-only" id="balance">${{ '%.2f'|format(balance) }}</span>
+          <span class="sr-only" id="equity">${{ '%.2f'|format(equity) }}</span>
         </article>
-        <span class="corner-tag corner-tag-a">+ LOCAL</span>
-        <span class="corner-tag corner-tag-b"># NO CLOUD</span>
       </div>
     </section>
 
@@ -220,7 +227,7 @@
   </main>
 
   <footer>
-    <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>PIXELBOT</span></a>
+    <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i></span><span>NEKOBOT</span></a>
     <p>BOUND TO LOOPBACK // NO CLOUD BACKEND // SECRETS NEVER RENDERED</p>
     <span>© 2026 // BUILD LOCAL. TRADE CAREFULLY.</span>
   </footer>
@@ -230,7 +237,7 @@
       <button class="dialog-close" aria-label="Close">×</button>
       <p class="pixel-kicker"><span></span> LOCAL SECURITY NOTICE</p>
       <h2>NO WALLET_<mark>REQUIRED</mark></h2>
-      <p>PIXELBOT CONNECTS TO EXCHANGES THROUGH TRADING-ONLY API CREDENTIALS STORED IN YOUR LOCAL <code>.env</code> FILE. WITHDRAWAL PERMISSION SHOULD ALWAYS BE DISABLED.</p>
+      <p>NEKOBOT CONNECTS TO EXCHANGES THROUGH TRADING-ONLY API CREDENTIALS STORED IN YOUR LOCAL <code>.env</code> FILE. WITHDRAWAL PERMISSION SHOULD ALWAYS BE DISABLED.</p>
       <button class="pixel-button" value="close">ACKNOWLEDGE</button>
     </form>
   </dialog>

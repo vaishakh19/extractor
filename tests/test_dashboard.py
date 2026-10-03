@@ -20,7 +20,7 @@ def test_dashboard_is_local_and_does_not_expose_secrets(tmp_path) -> None:
     client = TestClient(create_dashboard(settings, Repository(database)))
     response = client.get("/")
     assert response.status_code == 200
-    assert "PIXELBOT // LOCAL CRYPTO TERMINAL" in response.text
+    assert "NEKOBOT // LOCAL CRYPTO TERMINAL" in response.text
     assert "YOUR WALLET'S" in response.text
     assert "visible-key" not in response.text
     assert "super-secret" not in response.text
