@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <title>Local Crypto Bot</title>
+  <link rel="stylesheet" href="{{ url_for('static', path='/style.css') }}">
+</head>
+<body>
+  <header class="topbar">
+    <div>
+      <p class="eyebrow">PRIVATE · LOCAL-FIRST</p>
+      <h1>Crypto trading control room</h1>
+    </div>
+    <div class="mode mode-{{ mode|lower }}">{{ mode }}</div>
+  </header>
+
+  {% if mode == 'LIVE' %}
+  <div class="warning"><strong>LIVE MONEY MODE</strong> — orders may use real funds. Exchange state must reconcile before execution.</div>
+  {% endif %}
+
+  <main>
+    <section class="hero-grid" id="overview">
+      <article class="card status-card">
+        <span class="label">Bot status</span><strong id="bot-status">{{ bot_status }}</strong>
+        <small>{{ exchange|upper }} · {{ symbol }} · {{ strategy }}</small>
+      </article>
+      <article class="card metric"><span class="label">Cash balance</span><strong id="balance">${{ '%.2f'|format(balance) }}</strong></article>
+      <article class="card metric"><span class="label">Equity</span><strong id="equity">${{ '%.2f'|format(equity) }}</strong></article>
+      <article class="card metric"><span class="label">Today's P&amp;L</span><strong class="{{ 'positive' if today_pnl >= 0 else 'negative' }}">${{ '%+.2f'|format(today_pnl) }}</strong></article>
+      <article class="card metric"><span class="label">Gross P&amp;L</span><strong class="{{ 'positive' if gross_pnl >= 0 else 'negative' }}">${{ '%+.2f'|format(gross_pnl) }}</strong></article>
+      <article class="card metric"><span class="label">Net P&amp;L</span><strong class="{{ 'positive' if total_pnl >= 0 else 'negative' }}">${{ '%+.2f'|format(total_pnl) }}</strong></article>
+      <article class="card metric"><span class="label">Fees paid</span><strong>${{ '%.2f'|format(total_fees) }}</strong></article>
+      <article class="card metric"><span class="label">Open positions</span><strong>{{ open_positions }}</strong></article>
+      <article class="card metric"><span class="label">Win rate</span><strong>{{ '%.1f'|format(win_rate * 100) }}%</strong></article>
+      <article class="card metric"><span class="label">Max drawdown</span><strong>{{ '%.2f'|format(maximum_drawdown * 100) }}%</strong></article>
+    </section>
+
+    <nav class="tabs" aria-label="Dashboard sections">
+      <a href="#positions">Positions</a><a href="#trades">Trades</a><a href="#strategies">Strategy</a><a href="#backtest">Backtest</a><a href="#logs">Logs</a>
+    </nav>
+
+    <section id="positions" class="section">
+      <div class="section-heading"><p class="eyebrow">RISK ON BOOK</p><h2>Open positions</h2></div>
+      <div class="table-wrap"><table><thead><tr><th>Symbol</th><th>Side</th><th>Entry</th><th>Mark</th><th>Quantity</th><th>Unrealized P&amp;L</th><th>Stop</th><th>Take profit</th></tr></thead>
+      <tbody>{% for p in positions %}<tr><td>{{ p.symbol }}</td><td>{{ p.side|upper }}</td><td>{{ '%.6f'|format(p.entry_price) }}</td><td>{{ '%.6f'|format(p.current_price) }}</td><td>{{ '%.8f'|format(p.quantity) }}</td><td class="{{ 'positive' if p.unrealized_pnl >= 0 else 'negative' }}">{{ '%+.2f'|format(p.unrealized_pnl) }}</td><td>{{ '%.6f'|format(p.stop_loss) if p.stop_loss else '—' }}</td><td>{{ '%.6f'|format(p.take_profit) if p.take_profit else '—' }}</td></tr>{% else %}<tr><td colspan="8" class="empty">No open positions</td></tr>{% endfor %}</tbody></table></div>
+    </section>
+
+    <section id="trades" class="section">
+      <div class="section-heading"><p class="eyebrow">AUDIT TRAIL</p><h2>Recent trades</h2></div>
+      <div class="table-wrap"><table><thead><tr><th>Time (UTC)</th><th>Symbol</th><th>Side</th><th>Price</th><th>Quantity</th><th>Fees</th><th>Net P&amp;L</th><th>Mode</th></tr></thead>
+      <tbody>{% for t in trades_detail %}<tr><td>{{ t.executed_at }}</td><td>{{ t.symbol }}</td><td>{{ t.side|upper }}</td><td>{{ '%.6f'|format(t.price) }}</td><td>{{ '%.8f'|format(t.quantity) }}</td><td>{{ '%.4f'|format(t.fees) }}</td><td class="{{ 'positive' if t.pnl >= 0 else 'negative' }}">{{ '%+.2f'|format(t.pnl) }}</td><td>{{ t.mode|upper }}</td></tr>{% else %}<tr><td colspan="8" class="empty">No trades recorded</td></tr>{% endfor %}</tbody></table></div>
+    </section>
+
+    <section id="strategies" class="section split">
+      <div><p class="eyebrow">ACTIVE CONFIGURATION</p><h2>{{ strategy }}</h2><p>Signals always pass through risk checks and cannot place orders directly. Strategy behavior does not imply profitability.</p></div>
+      <dl class="config-list"><div><dt>Symbol</dt><dd>{{ symbol }}</dd></div><div><dt>Timeframe</dt><dd>{{ settings.timeframe }}</dd></div><div><dt>Risk / trade</dt><dd>{{ '%.1f'|format(settings.risk_per_trade * 100) }}%</dd></div><div><dt>Daily loss stop</dt><dd>{{ '%.1f'|format(settings.max_daily_loss * 100) }}%</dd></div></dl>
+    </section>
+
+    <section id="backtest" class="section">
+      <div class="section-heading"><p class="eyebrow">NO LOOK-AHEAD · NEXT-OPEN FILLS</p><h2>Run a local backtest</h2></div>
+      <form action="/backtest" method="post" enctype="multipart/form-data" class="backtest-form">
+        <label>Historical CSV<input type="file" name="historical_file" accept=".csv,text/csv" required><small>timestamp, open, high, low, close, volume · max 10 MB</small></label>
+        <label>Strategy<select name="strategy_name"><option value="combined">Combined</option><option value="ema_cross">EMA crossover</option><option value="rsi">RSI</option></select></label>
+        <label>Symbol<input name="symbol" value="{{ symbol }}" required></label>
+        <label>Timeframe<input name="timeframe" value="{{ settings.timeframe }}" required></label>
+        <label>Initial capital<input type="number" name="initial_capital" value="1000" min="1" step="0.01"></label>
+        <label>Fee rate<input type="number" name="fee_rate" value="0.001" min="0" max="0.1" step="0.0001"></label>
+        <label>Slippage (bps)<input type="number" name="slippage_bps" value="5" min="0" max="1000" step="0.1"></label>
+        <label>Fast EMA<input type="number" name="ema_fast" value="{{ settings.ema_fast }}" min="2"></label>
+        <label>Slow EMA<input type="number" name="ema_slow" value="{{ settings.ema_slow }}" min="3"></label>
+        <label>RSI period<input type="number" name="rsi_period" value="{{ settings.rsi_period }}" min="2"></label>
+        <label>RSI oversold<input type="number" name="rsi_oversold" value="{{ settings.rsi_oversold }}" min="0" max="100" step="0.1"></label>
+        <label>RSI overbought<input type="number" name="rsi_overbought" value="{{ settings.rsi_overbought }}" min="0" max="100" step="0.1"></label>
+        <label>Volume multiplier<input type="number" name="volume_multiplier" value="{{ settings.volume_multiplier }}" min="0.01" step="0.01"></label>
+        <button type="submit">Run backtest locally</button>
+      </form>
+      {% if backtest_error %}<p class="form-error">{{ backtest_error }}</p>{% endif %}
+      {% if backtest_result %}<div class="result-grid">{% for key, value in backtest_result.items() %}<div><span>{{ key|replace('_', ' ') }}</span><strong>{{ value }}</strong></div>{% endfor %}</div>{% endif %}
+    </section>
+
+    <section id="logs" class="section">
+      <div class="section-heading"><p class="eyebrow">LOCAL EVENT JOURNAL</p><h2>Important events</h2></div>
+      <div class="log-list">{% for e in events %}<div class="log-row"><time>{{ e.timestamp }}</time><span class="level level-{{ e.level|lower }}">{{ e.level }}</span><strong>{{ e.event_type }}</strong><p>{{ e.message }}</p></div>{% else %}<p class="empty">No events yet</p>{% endfor %}</div>
+    </section>
+  </main>
+  <footer>Bound to loopback only · No cloud backend · Secrets are never rendered</footer>
+  <script src="{{ url_for('static', path='/app.js') }}"></script>
+</body>
+</html>

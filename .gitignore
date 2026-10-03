@@ -1,0 +1,33 @@
+# Credentials and local configuration
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# Local bot state (never commit accounts, trades, or logs)
+data/*.db
+data/*.db-*
+data/KILL_SWITCH
+logs/
+*.log
+
+# Backtest exports and uploaded market data
+backtest_reports/
+data/uploads/
+data/historical/*
+!data/historical/.gitkeep
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
