@@ -1,0 +1,247 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="color-scheme" content="dark">
+  <meta name="description" content="Local-first crypto trading control terminal">
+  <title>NEKOBOT // LOCAL CRYPTO TERMINAL</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <div class="grid-overlay" aria-hidden="true"></div>
+  <div id="pixel-particles" class="pixel-particles" aria-hidden="true"></div>
+
+  <header class="site-nav">
+    <a class="brand" href="#top" aria-label="Nekobot home">
+      <span class="brand-mark" aria-hidden="true"><i></i></span>
+      <span>NEKOBOT</span>
+      <em>BETA v0.9.4</em>
+    </a>
+    <button class="menu-button" id="menu-button" type="button" aria-expanded="false" aria-controls="primary-nav" aria-label="Toggle navigation">
+      <span></span><span></span><span></span>
+    </button>
+    <nav class="primary-nav" id="primary-nav" aria-label="Primary navigation">
+      <a href="#features">FEATURES</a>
+      <a href="#performance">PERFORMANCE</a>
+      <a href="#pricing">PRICING</a>
+      <a href="#docs">DOCS</a>
+    </nav>
+    <button class="pixel-button nav-cta" id="wallet-button" type="button">CONNECT WALLET</button>
+  </header>
+
+  {% if mode == 'LIVE' %}
+  <aside class="live-warning" role="alert"><strong>! LIVE MONEY MODE !</strong><span>REAL FUNDS ENABLED // EXCHANGE STATE MUST RECONCILE</span></aside>
+  {% endif %}
+
+  <main id="top">
+    <section class="hero" id="features">
+      <div class="hero-copy">
+        <p class="hero-status"><span></span>{{ mode }} ON {{ exchange|upper }} • {{ trades }} TRADES</p>
+        <h1>YOUR WALLET'S<br><mark>NEW BEST</mark><br>FRIEND<span class="blink">_</span></h1>
+        <p class="hero-description">Automated trading bot that runs locally.<br>8-bit interface, risk-first execution. No cloud,<br>just validated signals.</p>
+        <div class="hero-actions">
+          <a class="pixel-button" href="#backtest">LAUNCH BOT +</a>
+          <a class="pixel-button pixel-button-secondary" href="#performance">VIEW STATS</a>
+        </div>
+        <div class="trust-row" aria-label="Product properties">
+          <span>▮ NO SUBSCRIPTION</span><b>•</b><span>▮ NON-CUSTODIAL</span><b>•</b><span>▮ OPEN SOURCE</span>
+        </div>
+      </div>
+
+      <div class="terminal-wrap neko-terminal-wrap">
+        <article class="trading-terminal neko-terminal">
+          <header class="terminal-header neko-terminal-header">
+            <div class="terminal-controls"><i></i><i></i><i></i></div>
+            <div class="terminal-label">NEKOBOT TRADING TERMINAL</div>
+          </header>
+          <div class="terminal-ribbon">LOCAL // NO CLOUD</div>
+          <div class="robot-stage" aria-label="Pixel robot trading illustration">
+            <svg viewBox="0 0 640 430" role="img" aria-label="Nekobot pixel trading robot">
+              <g class="profit-bars">
+                <rect x="0" y="326" width="86" height="35"/>
+                <rect x="62" y="286" width="86" height="75"/>
+                <rect x="126" y="246" width="86" height="115"/>
+                <rect x="190" y="203" width="86" height="158"/>
+                <rect x="254" y="160" width="86" height="201"/>
+              </g>
+              <rect class="robot-shadow" x="256" y="350" width="300" height="18"/>
+              <g class="robot-body">
+                <rect class="cream-fill" x="286" y="144" width="260" height="220"/>
+                <rect class="black-fill" x="307" y="244" width="218" height="98"/>
+                <rect class="panel-fill" x="324" y="260" width="75" height="28"/>
+                <rect class="panel-fill" x="418" y="260" width="75" height="28"/>
+                <rect class="panel-fill" x="324" y="303" width="75" height="18"/>
+                <rect class="panel-fill" x="418" y="303" width="75" height="18"/>
+                <rect class="lime-fill" x="454" y="265" width="20" height="8"/>
+                <rect class="lime-fill" x="438" y="278" width="52" height="7"/>
+              </g>
+              <g class="robot-head">
+                <path class="cream-fill" d="M271 100H302V62H350V100H474V62H522V100H552V238H271Z"/>
+                <rect class="face-fill" x="291" y="126" width="241" height="93"/>
+                <rect class="black-fill" x="309" y="145" width="57" height="57"/>
+                <rect class="lime-fill" x="318" y="154" width="39" height="39"/>
+                <rect class="black-fill" x="330" y="166" width="15" height="15"/>
+                <rect class="black-fill" x="457" y="145" width="57" height="57"/>
+                <rect class="lime-fill" x="466" y="154" width="39" height="39"/>
+                <rect class="black-fill" x="478" y="166" width="15" height="15"/>
+                <rect class="black-fill" x="405" y="183" width="15" height="15"/>
+                <rect class="cream-fill" x="246" y="157" width="25" height="15"/>
+                <rect class="cream-fill" x="552" y="157" width="25" height="15"/>
+                <rect class="cream-fill" x="246" y="190" width="25" height="15"/>
+                <rect class="cream-fill" x="552" y="190" width="25" height="15"/>
+              </g>
+              <g class="antenna">
+                <rect class="cream-fill" x="402" y="49" width="12" height="51"/>
+                <rect class="lime-fill" x="386" y="18" width="44" height="44"/>
+                <rect class="black-fill" x="398" y="30" width="20" height="20"/>
+              </g>
+              <g class="robot-pixels">
+                <rect class="lime-fill" x="555" y="98" width="12" height="12"/>
+                <rect class="cream-fill" x="208" y="379" width="19" height="19"/>
+                <rect class="cream-fill" x="548" y="379" width="13" height="13"/>
+              </g>
+            </svg>
+          </div>
+          <div class="terminal-metrics neko-metrics">
+            <div><span>P&amp;L TODAY</span><strong class="positive">${{ '%+.2f'|format(today_pnl) }}</strong></div>
+            <div><span>TRADES</span><strong>{{ '%03d'|format(trades) }}</strong></div>
+            <div><span>STATUS</span><strong id="bot-status" class="positive">{{ mode }}</strong></div>
+          </div>
+          <span class="sr-only" id="balance">${{ '%.2f'|format(balance) }}</span>
+          <span class="sr-only" id="equity">${{ '%.2f'|format(equity) }}</span>
+        </article>
+      </div>
+    </section>
+
+    <section class="performance section-block" id="performance">
+      <header class="section-heading">
+        <div><p class="pixel-kicker"><span></span> LIVE ACCOUNT TELEMETRY</p><h2>PERFORMANCE_<mark>DATA</mark></h2></div>
+        <p class="section-id">SEC_02 // UTC</p>
+      </header>
+      <div class="stat-grid">
+        <article class="pixel-card status-card">
+          <div class="card-top"><span class="pixel-icon">▣</span><small>SYS_001</small></div>
+          <p>BOT STATUS</p><strong>{{ bot_status }}</strong><em><i></i> {{ exchange|upper }} / {{ mode }}</em>
+        </article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">$</span><small>ACC_002</small></div><p>CASH BALANCE</p><strong>${{ '%.2f'|format(balance) }}</strong><em>AVAILABLE CAPITAL</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">↗</span><small>PNL_003</small></div><p>TODAY'S P&amp;L</p><strong class="{{ 'positive' if today_pnl >= 0 else 'negative' }}">${{ '%+.2f'|format(today_pnl) }}</strong><em>UTC SESSION</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">Σ</span><small>PNL_004</small></div><p>GROSS P&amp;L</p><strong>${{ '%+.2f'|format(gross_pnl) }}</strong><em>BEFORE FEES</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">%</span><small>WIN_005</small></div><p>WIN RATE</p><strong>{{ '%.1f'|format(win_rate * 100) }}%</strong><em>{{ trades }} EXECUTED TRADES</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">↓</span><small>RSK_006</small></div><p>MAX DRAWDOWN</p><strong>{{ '%.2f'|format(maximum_drawdown * 100) }}%</strong><em>CAPITAL RISK</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">≡</span><small>POS_007</small></div><p>OPEN POSITIONS</p><strong>{{ open_positions }}</strong><em>MAX {{ settings.max_open_positions if settings.max_open_positions is defined else 3 }}</em></article>
+        <article class="pixel-card"><div class="card-top"><span class="pixel-icon">¢</span><small>FEE_008</small></div><p>FEES PAID</p><strong>${{ '%.2f'|format(total_fees) }}</strong><em>NEVER HIDDEN</em></article>
+      </div>
+    </section>
+
+    <section class="section-block" id="positions">
+      <header class="section-heading compact-heading">
+        <div><p class="pixel-kicker"><span></span> RISK ON BOOK</p><h2>OPEN_<mark>POSITIONS</mark></h2></div>
+        <span class="count-chip">{{ open_positions }} ACTIVE</span>
+      </header>
+      <div class="pixel-table-wrap">
+        <table>
+          <thead><tr><th>SYMBOL</th><th>SIDE</th><th>ENTRY</th><th>MARK</th><th>QUANTITY</th><th>UNREALIZED P&amp;L</th><th>STOP</th><th>TAKE PROFIT</th></tr></thead>
+          <tbody>{% for p in positions %}<tr><td><b>{{ p.symbol }}</b></td><td>{{ p.side|upper }}</td><td>{{ '%.6f'|format(p.entry_price) }}</td><td>{{ '%.6f'|format(p.current_price) }}</td><td>{{ '%.8f'|format(p.quantity) }}</td><td class="{{ 'positive' if p.unrealized_pnl >= 0 else 'negative' }}">{{ '%+.2f'|format(p.unrealized_pnl) }}</td><td>{{ '%.6f'|format(p.stop_loss) if p.stop_loss else '---' }}</td><td>{{ '%.6f'|format(p.take_profit) if p.take_profit else '---' }}</td></tr>{% else %}<tr><td colspan="8" class="empty">[ NO OPEN POSITIONS // SYSTEM STANDING BY ]</td></tr>{% endfor %}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="section-block" id="trades">
+      <header class="section-heading compact-heading">
+        <div><p class="pixel-kicker"><span></span> IMMUTABLE LOCAL AUDIT TRAIL</p><h2>RECENT_<mark>TRADES</mark></h2></div>
+        <p class="section-id">DB // SQLITE</p>
+      </header>
+      <div class="pixel-table-wrap">
+        <table>
+          <thead><tr><th>TIME (UTC)</th><th>SYMBOL</th><th>SIDE</th><th>PRICE</th><th>QUANTITY</th><th>FEES</th><th>NET P&amp;L</th><th>MODE</th></tr></thead>
+          <tbody>{% for t in trades_detail %}<tr><td>{{ t.executed_at }}</td><td><b>{{ t.symbol }}</b></td><td>{{ t.side|upper }}</td><td>{{ '%.6f'|format(t.price) }}</td><td>{{ '%.8f'|format(t.quantity) }}</td><td>{{ '%.4f'|format(t.fees) }}</td><td class="{{ 'positive' if t.pnl >= 0 else 'negative' }}">{{ '%+.2f'|format(t.pnl) }}</td><td><span class="mode-chip">{{ t.mode|upper }}</span></td></tr>{% else %}<tr><td colspan="8" class="empty">[ NO TRADES RECORDED // PAPER ENGINE READY ]</td></tr>{% endfor %}</tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="strategy-section section-block" id="strategies">
+      <div class="strategy-copy">
+        <p class="pixel-kicker"><span></span> PLUG-AND-PLAY LOGIC</p>
+        <h2>ACTIVE_<mark>STRATEGY</mark></h2>
+        <p>STRATEGIES GENERATE SIGNALS ONLY. EVERY ORDER MUST PASS THE RISK ENGINE, POSITION MANAGER, AND IDEMPOTENT EXECUTION GATE.</p>
+        <div class="warning-strip">! SOFTWARE CAPABILITY ≠ STRATEGY PROFITABILITY !</div>
+      </div>
+      <article class="strategy-console">
+        <div class="console-title">CONFIG/{{ strategy|upper }}.JSON</div>
+        <dl class="config-list">
+          <div><dt>"symbol"</dt><dd>"{{ symbol }}"</dd></div>
+          <div><dt>"timeframe"</dt><dd>"{{ settings.timeframe }}"</dd></div>
+          <div><dt>"strategy"</dt><dd>"{{ strategy }}"</dd></div>
+          <div><dt>"risk_per_trade"</dt><dd>{{ '%.3f'|format(settings.risk_per_trade) }}</dd></div>
+          <div><dt>"daily_loss_stop"</dt><dd>{{ '%.3f'|format(settings.max_daily_loss) }}</dd></div>
+          <div><dt>"ema_fast"</dt><dd>{{ settings.ema_fast }}</dd></div>
+          <div><dt>"ema_slow"</dt><dd>{{ settings.ema_slow }}</dd></div>
+        </dl>
+      </article>
+    </section>
+
+    <section class="section-block" id="backtest">
+      <header class="section-heading">
+        <div><p class="pixel-kicker"><span></span> NO LOOK-AHEAD // NEXT-OPEN FILLS</p><h2>BACKTEST_<mark>LAB</mark></h2></div>
+        <p class="section-id">SEC_05 // RESEARCH</p>
+      </header>
+      <form action="/backtest" method="post" enctype="multipart/form-data" class="backtest-form">
+        <label class="file-field">HISTORICAL CSV<input type="file" name="historical_file" accept=".csv,text/csv" required><small>TIMESTAMP, OPEN, HIGH, LOW, CLOSE, VOLUME // MAX 10 MB</small></label>
+        <label>STRATEGY<select name="strategy_name"><option value="combined">COMBINED</option><option value="ema_cross">EMA CROSSOVER</option><option value="rsi">RSI</option></select></label>
+        <label>SYMBOL<input name="symbol" value="{{ symbol }}" required></label>
+        <label>TIMEFRAME<input name="timeframe" value="{{ settings.timeframe }}" required></label>
+        <label>INITIAL CAPITAL<input type="number" name="initial_capital" value="1000" min="1" step="0.01"></label>
+        <label>FEE RATE<input type="number" name="fee_rate" value="0.001" min="0" max="0.1" step="0.0001"></label>
+        <label>SLIPPAGE (BPS)<input type="number" name="slippage_bps" value="5" min="0" max="1000" step="0.1"></label>
+        <label>FAST EMA<input type="number" name="ema_fast" value="{{ settings.ema_fast }}" min="2"></label>
+        <label>SLOW EMA<input type="number" name="ema_slow" value="{{ settings.ema_slow }}" min="3"></label>
+        <label>RSI PERIOD<input type="number" name="rsi_period" value="{{ settings.rsi_period }}" min="2"></label>
+        <label>RSI OVERSOLD<input type="number" name="rsi_oversold" value="{{ settings.rsi_oversold }}" min="0" max="100" step="0.1"></label>
+        <label>RSI OVERBOUGHT<input type="number" name="rsi_overbought" value="{{ settings.rsi_overbought }}" min="0" max="100" step="0.1"></label>
+        <label>VOLUME MULTIPLIER<input type="number" name="volume_multiplier" value="{{ settings.volume_multiplier }}" min="0.01" step="0.01"></label>
+        <button class="pixel-button form-submit" type="submit">RUN BACKTEST +</button>
+      </form>
+      {% if backtest_error %}<p class="form-message form-error">! ERROR // {{ backtest_error }}</p>{% endif %}
+      {% if backtest_result %}<div class="result-grid">{% for key, value in backtest_result.items() %}<div><span>{{ key|replace('_', ' ') }}</span><strong>{{ value }}</strong></div>{% endfor %}</div>{% endif %}
+    </section>
+
+    <section class="pricing-section section-block" id="pricing">
+      <div><p class="pixel-kicker"><span></span> NO SUBSCRIPTIONS // NO CLOUD TAX</p><h2>PRICING_<mark>$0</mark></h2><p>YOUR MACHINE. YOUR DATABASE. YOUR KEYS. THE CORE BOT RUNS WITHOUT A HOSTED BACKEND OR MONTHLY PLATFORM FEE.</p></div>
+      <div class="pricing-stamp"><span>LOCAL LICENSE</span><strong>$0</strong><small>/ MONTH</small></div>
+    </section>
+
+    <section class="section-block" id="logs">
+      <header class="section-heading compact-heading"><div><p class="pixel-kicker"><span></span> LOCAL EVENT JOURNAL</p><h2>SYSTEM_<mark>LOGS</mark></h2></div><span class="count-chip">UTC</span></header>
+      <div class="log-list">{% for e in events %}<div class="log-row"><time>{{ e.timestamp }}</time><span class="level level-{{ e.level|lower }}">{{ e.level }}</span><strong>{{ e.event_type }}</strong><p>{{ e.message }}</p></div>{% else %}<p class="empty">[ NO EVENTS // JOURNAL READY ]</p>{% endfor %}</div>
+    </section>
+
+    <section class="docs-section section-block" id="docs">
+      <div><p class="pixel-kicker"><span></span> QUICK START</p><h2>BOOT_<mark>SEQUENCE</mark></h2></div>
+      <pre><code><span>$</span> cp .env.example .env
+<span>$</span> python run.py --paper
+<span>$</span> python run.py --dashboard
+<span>&gt;</span> OPEN http://127.0.0.1:8000</code></pre>
+      <a class="pixel-button pixel-button-secondary" href="#top">BACK TO TOP ↑</a>
+    </section>
+  </main>
+
+  <footer>
+    <a class="brand footer-brand" href="#top"><span class="brand-mark" aria-hidden="true"><i></i></span><span>NEKOBOT</span></a>
+    <p>BOUND TO LOOPBACK // NO CLOUD BACKEND // SECRETS NEVER RENDERED</p>
+    <span>© 2026 // BUILD LOCAL. TRADE CAREFULLY.</span>
+  </footer>
+
+  <dialog id="wallet-dialog" class="pixel-dialog">
+    <form method="dialog">
+      <button class="dialog-close" aria-label="Close">×</button>
+      <p class="pixel-kicker"><span></span> LOCAL SECURITY NOTICE</p>
+      <h2>NO WALLET_<mark>REQUIRED</mark></h2>
+      <p>NEKOBOT CONNECTS TO EXCHANGES THROUGH TRADING-ONLY API CREDENTIALS STORED IN YOUR LOCAL <code>.env</code> FILE. WITHDRAWAL PERMISSION SHOULD ALWAYS BE DISABLED.</p>
+      <button class="pixel-button" value="close">ACKNOWLEDGE</button>
+    </form>
+  </dialog>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
