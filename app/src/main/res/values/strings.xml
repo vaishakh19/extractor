@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Universal Text Extractor</string>
+    <string name="accessibility_service_label">Universal Text Extractor floating button</string>
+    <string name="accessibility_service_description">Displays an optional floating shortcut to start a user-approved screen capture. This service does not inspect screen contents.</string>
+    <string name="tile_label">Extract text</string>
+    <string name="tile_description">Capture the visible screen and extract its text</string>
+</resources>
