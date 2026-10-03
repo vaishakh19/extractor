@@ -146,6 +146,7 @@ class Settings(BaseSettings):
             "strategy": self.strategy.value,
             "risk_per_trade": self.risk_per_trade,
             "max_daily_loss": self.max_daily_loss,
+            "max_open_positions": self.max_open_positions,
             "ema_fast": self.ema_fast,
             "ema_slow": self.ema_slow,
             "rsi_period": self.rsi_period,
